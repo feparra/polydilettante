@@ -11,7 +11,7 @@ export const INITIAL_NODES: NodeData[] = [
     tags: ['Volatility', 'ATR', 'Order Flow', 'Market Microstructure'],
     simulatorId: 'quant-atr-velocity',
     connections: ['plc-current-loop', 'ai-smart-router'],
-    position: { x: 100, y: 150 },
+    position: { x: 80, y: 110 },
     metaphor: {
       es: 'La volatilidad comprime la energía antes de la ruptura. Un filtro ATR con umbral dinámico actúa como una válvula de alivio que solo dispara cuando la velocidad del flujo supera la fricción del spread.',
       en: 'Volatility compresses energy prior to expansion. An ATR filter with dynamic threshold acts like a pressure relief valve triggering only when tape velocity exceeds spread friction.',
@@ -95,7 +95,7 @@ export const INITIAL_NODES: NodeData[] = [
     tags: ['Industrial Automation', 'Sensors', 'Analog Signal', 'Fault Detection'],
     simulatorId: 'plc-current-loop',
     connections: ['quant-atr-velocity', 'cycloidal-drive-3d'],
-    position: { x: 550, y: 150 },
+    position: { x: 640, y: 80 },
     metaphor: {
       es: 'La corriente no se degrada con la distancia del cable como el voltaje. El "cero vivo" en 4 mA permite distinguir al instante un sensor en reposo (4 mA) de un cable cortado catastróficamente (0 mA).',
       en: 'Current does not drop across long wire distances unlike voltage. The 4 mA "live-zero" immediately discriminates a transducer resting at zero (4 mA) from a catastrophic broken wire (0 mA).',
