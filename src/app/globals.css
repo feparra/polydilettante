@@ -1,14 +1,15 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --bg-deep-void: #05050A;
   --glass-surface: rgba(13, 15, 26, 0.72);
   --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-glow: rgba(255, 255, 255, 0.03);
 }
 
 body {
-  background-color: var(--bg-deep-void);
+  background-color: #05050A;
   color: #F1F5F9;
   font-family: var(--font-inter), sans-serif;
   overflow: hidden;
@@ -45,20 +46,4 @@ body {
 
 .react-flow__pane:active {
   cursor: grabbing;
-}
-
-/* Bioluminescent pulse animations */
-@keyframes pulseGlow {
-  0%, 100% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.03);
-  }
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 3s ease-in-out infinite;
 }
