@@ -18,7 +18,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'PolyDilettante — The Connected Ideas Playground & Bioluminescent VKMS',
+  title: 'PhilomatHub — The Polymath Knowledge & Kinetic Playground',
   description:
     'A living, tactile, bilingual digital laboratory where quantitative trading, automation, robotics, and AI are explored through physics-driven nodes and interactive micro-simulators.',
 };

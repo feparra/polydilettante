@@ -203,3 +203,4 @@ export default function GenericAdaptiveSimulator({ title }: GenericAdaptiveSimul
     </div>
   );
 }
+

@@ -35,7 +35,7 @@ export default function FloatingHud() {
         </div>
         <div>
           <span className="font-bold tracking-wider text-xs md:text-sm bg-gradient-to-r from-white via-cyan-100 to-violet-200 bg-clip-text text-transparent font-mono block leading-none">
-            POLYDILETTANTE
+            PHILOMATHUB
           </span>
           <span className="text-[9px] text-slate-400 font-mono tracking-tight block mt-0.5">
             {language === 'es' ? 'Gabinete Kinestésico de Polímatas' : 'Bioluminescent Polymath Lab'}

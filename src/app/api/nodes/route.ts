@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
     // 1. Authorization check
     const authHeader = req.headers.get("authorization");
     const ingestKeyHeader = req.headers.get("x-ingest-key");
-    const configuredKey = process.env.POLYDILETTANTE_INGEST_KEY;
+    const configuredKey = process.env.PHILOMATHUB_INGEST_KEY || process.env.POLYDILETTANTE_INGEST_KEY;
 
     const providedKey =
       ingestKeyHeader ||
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
 
     if (configuredKey && providedKey !== configuredKey) {
       return NextResponse.json(
-        { error: "Unauthorized. Provide valid POLYDILETTANTE_INGEST_KEY in x-ingest-key or Authorization Bearer header." },
+        { error: "Unauthorized. Provide valid PHILOMATHUB_INGEST_KEY in x-ingest-key or Authorization Bearer header." },
         { status: 401 }
       );
     }
@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
       case_edge_en: body.case_edge_en || "",
       case_crosspollination_es: body.case_crosspollination_es || "",
       case_crosspollination_en: body.case_crosspollination_en || "",
-      blueprint_code: body.blueprint_code || "// PolyDilettante Blueprint",
+      blueprint_code: body.blueprint_code || "// PhilomatHub Blueprint",
       blueprint_lang: body.blueprint_lang || "typescript",
     };
 
@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         success: true,
-        message: `Node [${payload.id}] successfully ingested into PolyDilettante!`,
+        message: `Node [${payload.id}] successfully ingested into PhilomatHub!`,
         node: data,
       },
       { status: 201 }
@@ -101,3 +101,4 @@ export async function GET() {
 
   return NextResponse.json({ count: data?.length || 0, nodes: data });
 }
+

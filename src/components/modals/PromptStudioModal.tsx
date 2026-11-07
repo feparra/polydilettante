@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useAppStore } from '@/store/useAppStore';
 import { X, Copy, Check, Sparkles, Terminal, FileCode, ArrowDownToLine, Loader2, AlertCircle } from 'lucide-react';
 
-const UNIVERSAL_LLM_PROMPT = `Actúa como Curador de Conocimiento e Ingeniero Polímata para PolyDilettante.com.
+const UNIVERSAL_LLM_PROMPT = `Actúa como Curador de Conocimiento e Ingeniero Polímata para PhilomatHub.com.
 Toma los conceptos, descubrimientos o lecciones de nuestra conversación y formatéalos en un ÚNICO objeto JSON válido listo para ingerir.
 
 REGLAS ESTRICTAS:
@@ -148,8 +148,8 @@ TEMA ESPECÍFICO A FORMATEAR:
         type: 'success',
         message:
           language === 'es'
-            ? `¡Artefacto [${parsed.id}] montado con éxito en PolyDilettante!`
-            : `Artifact [${parsed.id}] successfully mounted to PolyDilettante!`,
+            ? `¡Artefacto [${parsed.id}] montado con éxito en PhilomatHub!`
+            : `Artifact [${parsed.id}] successfully mounted to PhilomatHub!`,
       });
       setJsonInput('');
       setTimeout(() => {
@@ -366,7 +366,7 @@ TEMA ESPECÍFICO A FORMATEAR:
                       ? 'Validando y Montando...'
                       : 'Mounting...'
                     : language === 'es'
-                    ? 'Montar en PolyDilettante'
+                    ? 'Montar en PhilomatHub'
                     : 'Mount Artifact'}
                 </span>
               </button>
