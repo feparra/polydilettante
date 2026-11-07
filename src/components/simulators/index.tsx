@@ -3,6 +3,7 @@ import QuantAtrSimulator from './QuantAtrSimulator';
 import PlcCurrentLoopSimulator from './PlcCurrentLoopSimulator';
 import CycloidalDriveSimulator from './CycloidalDriveSimulator';
 import AiSmartRouterSimulator from './AiSmartRouterSimulator';
+import GenericAdaptiveSimulator from './GenericAdaptiveSimulator';
 
 export function getSimulatorComponent(simulatorId: string) {
   switch (simulatorId) {
@@ -15,11 +16,7 @@ export function getSimulatorComponent(simulatorId: string) {
     case 'ai-smart-router':
       return <AiSmartRouterSimulator />;
     default:
-      return (
-        <div className="p-8 text-center text-slate-400 font-mono text-sm">
-          Simulator [{simulatorId}] under construction in Bioluminescent Laboratory.
-        </div>
-      );
+      // Fallback: If a new node was ingested without dedicated TSX, render the kinetic adaptive simulator!
+      return <GenericAdaptiveSimulator title={simulatorId.toUpperCase()} />;
   }
 }
-

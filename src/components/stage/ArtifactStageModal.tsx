@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAppStore, StageTab } from '@/store/useAppStore';
-import { INITIAL_NODES } from '@/data/nodes';
 import { CATEGORY_COLORS } from '@/types/node';
 import { getSimulatorComponent } from '@/components/simulators';
 import {
@@ -21,6 +20,7 @@ import {
 
 export default function ArtifactStageModal() {
   const {
+    nodes: appNodes,
     language,
     toggleLanguage,
     activeNodeId,
@@ -42,10 +42,15 @@ export default function ArtifactStageModal() {
 
   if (!activeNodeId) return null;
 
-  const node = INITIAL_NODES.find((n) => n.id === activeNodeId);
+  const node = appNodes.find((n) => n.id === activeNodeId);
   if (!node) return null;
 
-  const categoryConfig = CATEGORY_COLORS[node.category];
+  const categoryConfig = CATEGORY_COLORS[node.category] || {
+    hex: '#00F5D4',
+    rgb: '0, 245, 212',
+    glow: 'rgba(0, 245, 212, 0.4)',
+    label: { es: 'Sistema', en: 'System' },
+  };
 
   const handleCopyCode = async () => {
     try {
@@ -116,9 +121,12 @@ export default function ArtifactStageModal() {
                 {language === 'es' ? 'Polinización:' : 'Cross-Links:'}
               </span>
               {node.connections.map((targetId) => {
-                const targetNode = INITIAL_NODES.find((n) => n.id === targetId);
+                const targetNode = appNodes.find((n) => n.id === targetId);
                 if (!targetNode) return null;
-                const targetCat = CATEGORY_COLORS[targetNode.category];
+                const targetCat = CATEGORY_COLORS[targetNode.category] || {
+                  hex: '#00F5D4',
+                  rgb: '0, 245, 212',
+                };
                 return (
                   <button
                     key={targetId}
@@ -304,9 +312,12 @@ export default function ArtifactStageModal() {
                     {/* Direct Jump Buttons to Connected Disciplines */}
                     <div className="pt-2 flex flex-wrap gap-2">
                       {node.connections.map((connId) => {
-                        const connNode = INITIAL_NODES.find((n) => n.id === connId);
+                        const connNode = appNodes.find((n) => n.id === connId);
                         if (!connNode) return null;
-                        const connCat = CATEGORY_COLORS[connNode.category];
+                        const connCat = CATEGORY_COLORS[connNode.category] || {
+                          hex: '#00F5D4',
+                          rgb: '0, 245, 212',
+                        };
                         return (
                           <button
                             key={connId}
@@ -373,4 +384,3 @@ export default function ArtifactStageModal() {
     </div>
   );
 }
-

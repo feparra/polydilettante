@@ -144,3 +144,4 @@ on conflict (id) do update set
   tags = excluded.tags,
   metaphor_es = excluded.metaphor_es,
   metaphor_en = excluded.metaphor_en;
+

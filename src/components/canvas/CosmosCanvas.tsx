@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useCallback, useState } from 'react';
+import React, { useMemo, useCallback, useState, useEffect } from 'react';
 import {
   ReactFlow,
   Background,
@@ -14,7 +14,6 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
-import { INITIAL_NODES } from '@/data/nodes';
 import KnowledgeCardNode from './KnowledgeCardNode';
 import BioluminescentEdge from './BioluminescentEdge';
 import { CATEGORY_COLORS } from '@/types/node';
@@ -29,7 +28,7 @@ const edgeTypes = {
 };
 
 export default function CosmosCanvas() {
-  const { activeNodeId, setActiveNodeId, language } = useAppStore();
+  const { nodes: appNodes, activeNodeId, setActiveNodeId, language } = useAppStore();
   const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
@@ -38,22 +37,22 @@ export default function CosmosCanvas() {
     setMouseOffset({ x: nx, y: ny });
   }, []);
 
-  const initialFlowNodes: Node[] = useMemo(() => {
-    return INITIAL_NODES.map((node) => ({
+  const flowNodes: Node[] = useMemo(() => {
+    return appNodes.map((node) => ({
       id: node.id,
       type: 'knowledgeCard',
       position: node.position,
       data: node,
       selected: node.id === activeNodeId,
     }));
-  }, [activeNodeId]);
+  }, [appNodes, activeNodeId]);
 
-  const initialFlowEdges: Edge[] = useMemo(() => {
+  const flowEdges: Edge[] = useMemo(() => {
     const edges: Edge[] = [];
-    INITIAL_NODES.forEach((sourceNode) => {
+    appNodes.forEach((sourceNode) => {
       sourceNode.connections.forEach((targetId) => {
         if (sourceNode.id < targetId) {
-          const catConfig = CATEGORY_COLORS[sourceNode.category];
+          const catConfig = CATEGORY_COLORS[sourceNode.category] || { hex: '#00F5D4' };
           edges.push({
             id: `edge-${sourceNode.id}-${targetId}`,
             source: sourceNode.id,
@@ -67,10 +66,16 @@ export default function CosmosCanvas() {
       });
     });
     return edges;
-  }, []);
+  }, [appNodes]);
 
-  const [nodes, , onNodesChange] = useNodesState(initialFlowNodes);
-  const [edges, , onEdgesChange] = useEdgesState(initialFlowEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState(flowNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(flowEdges);
+
+  // Sync internal state when nodes change dynamically via ingestion
+  useEffect(() => {
+    setNodes(flowNodes);
+    setEdges(flowEdges);
+  }, [flowNodes, flowEdges, setNodes, setEdges]);
 
   const onNodeClick = useCallback(
     (_: React.MouseEvent, node: Node) => {
@@ -99,13 +104,6 @@ export default function CosmosCanvas() {
         }}
         className="pointer-events-none absolute bottom-[10%] right-[16%] w-[580px] h-[580px] rounded-full blur-[160px] opacity-[0.15] transition-transform duration-300 ease-out"
       />
-      <div
-        style={{
-          transform: `translate3d(${mouseOffset.y * 0.6}px, ${-mouseOffset.x * 0.6}px, 0)`,
-          backgroundColor: '#F72585',
-        }}
-        className="pointer-events-none absolute top-[45%] left-[48%] w-[360px] h-[360px] rounded-full blur-[140px] opacity-[0.09] transition-transform duration-300 ease-out"
-      />
 
       <ReactFlow
         nodes={nodes}
@@ -126,8 +124,8 @@ export default function CosmosCanvas() {
         <Controls className="!bg-[#090C19]/85 !border !border-white/15 !rounded-xl !p-1 [&>button]:!bg-transparent [&>button]:!border-white/10 [&>button]:!text-slate-300 hover:[&>button]:!bg-white/10 shadow-2xl" />
         <MiniMap
           nodeColor={(n) => {
-            const nodeData = INITIAL_NODES.find((item) => item.id === n.id);
-            return nodeData ? CATEGORY_COLORS[nodeData.category].hex : '#00F5D4';
+            const nodeData = appNodes.find((item) => item.id === n.id);
+            return nodeData ? (CATEGORY_COLORS[nodeData.category]?.hex || '#00F5D4') : '#00F5D4';
           }}
           maskColor="rgba(5, 5, 10, 0.85)"
           className="!bg-[#090C19]/90 !border !border-white/15 !rounded-xl overflow-hidden shadow-2xl"
@@ -143,8 +141,8 @@ export default function CosmosCanvas() {
         <span className="text-white/20">|</span>
         <span>
           {language === 'es'
-            ? 'Arrastra nodos o haz clic para abrir el Cockpit Kinestésico a 60 FPS'
-            : 'Drag nodes or click any card to launch the 60 FPS Kinetic Cockpit'}
+            ? `${appNodes.length} Nodos Conectados • Arrastra o abre el Cockpit`
+            : `${appNodes.length} Linked Nodes • Drag or launch Cockpit`}
         </span>
       </div>
     </div>

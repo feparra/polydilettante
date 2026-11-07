@@ -48,17 +48,29 @@ create table if not exists public.simulator_telemetry (
 alter table public.nodes enable row level security;
 alter table public.simulator_telemetry enable row level security;
 
--- 5. Public Read Access for Nodes (Dark Wunderkammer is publicly explorable)
+-- 5. Policies on Nodes Table
 create policy "Nodes are viewable by everyone" 
   on public.nodes 
   for select 
   to anon, authenticated 
   using (true);
 
--- 6. Telemetry Insert Policy (Allow anonymous kinesthetic log generation)
+create policy "Allow insert on nodes"
+  on public.nodes
+  for insert
+  to anon, authenticated
+  with check (true);
+
+create policy "Allow update on nodes"
+  on public.nodes
+  for update
+  to anon, authenticated
+  using (true)
+  with check (true);
+
+-- 6. Telemetry Insert Policy
 create policy "Anyone can insert telemetry logs" 
   on public.simulator_telemetry 
   for insert 
   to anon, authenticated 
   with check (true);
-

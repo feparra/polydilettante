@@ -1,16 +1,15 @@
 'use client';
 
 import React from 'react';
-import { INITIAL_NODES } from '@/data/nodes';
 import { CATEGORY_COLORS } from '@/types/node';
 import { useAppStore } from '@/store/useAppStore';
 import NodeMiniPreview from './NodeMiniPreview';
 import { Activity, Sparkles, GitBranch, Cpu } from 'lucide-react';
 
 export default function ArcadeDeck() {
-  const { language, selectedCategory, setActiveNodeId } = useAppStore();
+  const { nodes: appNodes, language, selectedCategory, setActiveNodeId } = useAppStore();
 
-  const filteredNodes = INITIAL_NODES.filter(
+  const filteredNodes = appNodes.filter(
     (n) => selectedCategory === 'all' || n.category === selectedCategory
   );
 
@@ -47,7 +46,7 @@ export default function ArcadeDeck() {
           <div className="flex items-center gap-3 text-xs font-mono text-slate-400 bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl shrink-0">
             <Activity className="w-4 h-4 text-emerald-400 animate-pulse" />
             <span>
-              {filteredNodes.length} {language === 'es' ? 'Simuladores Activos' : 'Live Simulators'}
+              {filteredNodes.length} {language === 'es' ? 'Nodos de Conocimiento' : 'Knowledge Nodes'}
             </span>
           </div>
         </div>
@@ -55,7 +54,11 @@ export default function ArcadeDeck() {
         {/* Bento Grid of Interactive Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {filteredNodes.map((node) => {
-            const cat = CATEGORY_COLORS[node.category];
+            const cat = CATEGORY_COLORS[node.category] || {
+              hex: '#00F5D4',
+              rgb: '0, 245, 212',
+              label: { es: 'Sistema', en: 'System' },
+            };
 
             return (
               <div
@@ -152,4 +155,3 @@ export default function ArcadeDeck() {
     </div>
   );
 }
-
