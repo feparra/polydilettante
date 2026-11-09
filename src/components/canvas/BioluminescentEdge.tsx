@@ -11,7 +11,6 @@ export default function BioluminescentEdge({
   targetY,
   sourcePosition,
   targetPosition,
-  style,
 }: EdgeProps) {
   const [edgePath] = getBezierPath({
     sourceX,
@@ -22,56 +21,31 @@ export default function BioluminescentEdge({
     targetPosition,
   });
 
-  const strokeColor = (style?.stroke as string) || '#00F5D4';
-
   return (
-    <g className="react-flow__edge-bioluminescent">
-      {/* Outer Glow Path */}
+    <g className="react-flow__edge-clean-conduit">
+      {/* Background shadow line */}
       <path
-        id={`${id}-glow`}
+        id={`${id}-bg`}
         d={edgePath}
         fill="none"
-        stroke={strokeColor}
-        strokeWidth={4}
-        strokeOpacity={0.22}
-        style={{ filter: `drop-shadow(0 0 8px ${strokeColor})` }}
+        stroke="#0E121A"
+        strokeWidth={3}
       />
 
-      {/* Core Dashed Conduit */}
+      {/* Clean Technical Dashed Bus */}
       <path
         id={id}
         d={edgePath}
         fill="none"
-        stroke={strokeColor}
-        strokeWidth={1.8}
-        strokeOpacity={0.65}
-        strokeDasharray="6 6"
-        className="animate-dash-flow"
+        stroke="#2E384D"
+        strokeWidth={1.2}
+        strokeDasharray="4 4"
       />
 
-      {/* Travelling Synaptic Photon 1 */}
-      <circle
-        r="4"
-        fill={strokeColor}
-        style={{ filter: `drop-shadow(0 0 8px ${strokeColor})` }}
-      >
-        <animateMotion dur="2.5s" repeatCount="indefinite" path={edgePath} />
-      </circle>
-
-      {/* Travelling Synaptic Photon 2 (Reverse / Offset) */}
-      <circle
-        r="2.5"
-        fill="#FFFFFF"
-        style={{ filter: `drop-shadow(0 0 6px ${strokeColor})` }}
-      >
-        <animateMotion
-          dur="2.5s"
-          begin="1.25s"
-          repeatCount="indefinite"
-          path={edgePath}
-        />
+      {/* Discrete Signal Indicator */}
+      <circle r="2.5" fill="#06B6D4">
+        <animateMotion dur="3.5s" repeatCount="indefinite" path={edgePath} />
       </circle>
     </g>
   );
 }
-

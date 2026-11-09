@@ -36,41 +36,49 @@ export interface NodeData extends Record<string, unknown> {
   };
 }
 
-export const CATEGORY_COLORS: Record<Category, {
-  hex: string;
-  rgb: string;
-  glow: string;
-  label: { es: string; en: string };
-}> = {
+export const CATEGORY_COLORS: Record<
+  Category,
+  {
+    hex: string;
+    rgb: string;
+    glow: string;
+    label: { es: string; en: string };
+    code: string;
+  }
+> = {
   quant: {
-    hex: '#00F5D4',
-    rgb: '0, 245, 212',
-    glow: 'rgba(0, 245, 212, 0.4)',
-    label: { es: 'Trading Cuantitativo', en: 'Quantitative Trading' },
+    hex: '#06B6D4', // Precision Cyan / Volatility instrument
+    rgb: '6, 182, 212',
+    glow: 'rgba(6, 182, 212, 0.2)',
+    label: { es: 'Trading Cuantitativo', en: 'Quantitative Finance' },
+    code: 'SEC-01',
   },
   engineering: {
-    hex: '#FF6B35',
-    rgb: '255, 107, 53',
-    glow: 'rgba(255, 107, 53, 0.4)',
-    label: { es: 'Ingeniería y Automatización', en: 'Engineering & Automation' },
+    hex: '#F59E0B', // Precision Amber / Industrial Instrument
+    rgb: '245, 158, 11',
+    glow: 'rgba(245, 158, 11, 0.2)',
+    label: { es: 'Automatización & Lazos', en: 'Control & Automation' },
+    code: 'SEC-02',
   },
   mechanics: {
-    hex: '#F72585',
-    rgb: '247, 37, 133',
-    glow: 'rgba(247, 37, 133, 0.4)',
-    label: { es: 'Mecánica 3D y Robótica', en: '3D & Mechanics' },
+    hex: '#EC4899', // Kinematics Pink / Precision Machinery
+    rgb: '236, 72, 153',
+    glow: 'rgba(236, 72, 153, 0.2)',
+    label: { es: 'Cinemática & Mecánica', en: 'Kinematics & Robotics' },
+    code: 'SEC-03',
   },
   ai: {
-    hex: '#9B5DE5',
-    rgb: '155, 93, 229',
-    glow: 'rgba(155, 93, 229, 0.4)',
-    label: { es: 'Sistemas de IA y Agentes', en: 'AI & Agents' },
+    hex: '#8B5CF6', // Purple / Neural Routing
+    rgb: '139, 92, 246',
+    glow: 'rgba(139, 92, 246, 0.2)',
+    label: { es: 'Sistemas IA & Inferencia', en: 'AI & Inference Architecture' },
+    code: 'SEC-04',
   },
   software: {
-    hex: '#3A86FF',
-    rgb: '58, 134, 255',
-    glow: 'rgba(58, 134, 255, 0.4)',
-    label: { es: 'Software y Arquitectura', en: 'Software & Systems' },
+    hex: '#3B82F6', // Blue / Systems
+    rgb: '59, 130, 246',
+    glow: 'rgba(59, 130, 246, 0.2)',
+    label: { es: 'Sistemas Distribuidos', en: 'Distributed Systems' },
+    code: 'SEC-05',
   },
 };
-

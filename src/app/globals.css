@@ -3,71 +3,62 @@
 @tailwind utilities;
 
 :root {
-  --bg-deep-void: #05050A;
-  --glass-surface: rgba(13, 15, 26, 0.72);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --lab-bg: #0B0D11;
+  --lab-panel: #11141B;
+  --lab-panel-hover: #161A23;
+  --lab-border: #1E232E;
+  --lab-border-focus: #2E384D;
+  --lab-text: #E1E7F0;
+  --lab-muted: #7E8B9F;
+  --lab-amber: #F59E0B;
+  --lab-cyan: #06B6D4;
+  --lab-emerald: #10B981;
 }
 
 body {
-  background-color: #05050A;
-  color: #F1F5F9;
-  font-family: var(--font-inter), sans-serif;
+  background-color: var(--lab-bg);
+  color: var(--lab-text);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow: hidden;
   user-select: none;
 }
 
-/* Custom scrollbars for dark wunderkammer aesthetic */
+/* Precision technical scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(5, 5, 10, 0.6);
+  background: #0B0D11;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.16);
-  border-radius: 9999px;
+  background: #252D3D;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 245, 212, 0.45);
+  background: #3B475F;
 }
 
-/* React Flow customizations */
+/* Grid overlay background */
+.lab-grid-bg {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+}
+
+/* React Flow customizations for precision engineering */
 .react-flow__background {
   background-color: transparent !important;
 }
 
 .react-flow__pane {
-  cursor: grab;
+  cursor: default;
 }
 
 .react-flow__pane:active {
   cursor: grabbing;
-}
-
-/* Organic Breathing / Floating Animation for Constellation Nodes */
-@keyframes floatNode {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-7px) rotate(0.3deg);
-  }
-}
-
-.animate-float-slow {
-  animation: floatNode 6s ease-in-out infinite;
-}
-
-@keyframes dashFlow {
-  to {
-    stroke-dashoffset: -40;
-  }
-}
-
-.animate-dash-flow {
-  animation: dashFlow 1.5s linear infinite;
 }

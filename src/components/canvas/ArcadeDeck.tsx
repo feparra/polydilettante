@@ -4,7 +4,7 @@ import React from 'react';
 import { CATEGORY_COLORS } from '@/types/node';
 import { useAppStore } from '@/store/useAppStore';
 import NodeMiniPreview from './NodeMiniPreview';
-import { Activity, Sparkles, GitBranch, Cpu } from 'lucide-react';
+import { ArrowUpRight, GitBranch } from 'lucide-react';
 
 export default function ArcadeDeck() {
   const { nodes: appNodes, language, selectedCategory, setActiveNodeId } = useAppStore();
@@ -14,49 +14,31 @@ export default function ArcadeDeck() {
   );
 
   return (
-    <div className="relative w-full h-screen overflow-y-auto bg-[#05050A] pt-24 pb-16 px-6 md:px-12">
-      {/* Ambient Bioluminescent Glow */}
-      <div className="pointer-events-none fixed top-20 left-1/4 w-[480px] h-[480px] rounded-full bg-cyan-500/10 blur-[150px]" />
-      <div className="pointer-events-none fixed bottom-10 right-1/4 w-[520px] h-[520px] rounded-full bg-purple-500/10 blur-[160px]" />
-
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* Hero Header */}
-        <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-white/10 pb-6">
+    <div className="relative w-full h-screen overflow-y-auto bg-[#0B0D11] lab-grid-bg pt-20 pb-16 px-6 md:px-12">
+      <div className="max-w-6xl mx-auto">
+        {/* Technical Sub-Header */}
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-[#1E232E] pb-4 font-mono">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-xs font-mono mb-3">
-              <Cpu className="w-3.5 h-3.5" />
-              <span>
-                {language === 'es'
-                  ? 'GABINETE DE CURIOSIDADES KINESTÉSICO // V2.0'
-                  : 'KINETIC CABINET OF CURIOSITIES // V2.0'}
-              </span>
+            <div className="flex items-center gap-2 text-xs text-slate-400 mb-1">
+              <span className="w-2 h-2 rounded-sm bg-cyan-500" />
+              <span>INDEX: CROSS-DISCIPLINARY SYSTEMS</span>
             </div>
-            <h1 className="text-2xl md:text-4xl font-bold text-white font-mono tracking-tight">
-              {language === 'es'
-                ? 'Explora Sistemas por Polinización Cruzada'
-                : 'Explore Systems via Cross-Pollination'}
+            <h1 className="text-xl md:text-2xl font-bold text-white tracking-tight">
+              {language === 'es' ? 'Banco de Trabajo & Sistemas Registrados' : 'Systems Engineering Registry'}
             </h1>
-            <p className="text-sm text-slate-400 mt-1.5 max-w-2xl">
-              {language === 'es'
-                ? 'Cada tarjeta aloja un micro-simulador físico a 60 FPS donde el trading cuantitativo, la robótica cicloidal, los lazos industriales 4-20 mA y los agentes IA comparten las mismas leyes matemáticas.'
-                : 'Every card hosts a real-time 60 FPS physics micro-simulator where quantitative trading, cycloidal robotics, 4-20 mA industrial loops, and AI routers share the exact same mathematical laws.'}
-            </p>
           </div>
 
-          <div className="flex items-center gap-3 text-xs font-mono text-slate-400 bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-xl shrink-0">
-            <Activity className="w-4 h-4 text-emerald-400 animate-pulse" />
-            <span>
-              {filteredNodes.length} {language === 'es' ? 'Nodos de Conocimiento' : 'Knowledge Nodes'}
-            </span>
-          </div>
+          <span className="text-xs text-slate-500">
+            {filteredNodes.length} {language === 'es' ? 'subsistemas activos' : 'active subsystems'}
+          </span>
         </div>
 
-        {/* Bento Grid of Interactive Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Structured Technical Table / Card Deck */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredNodes.map((node) => {
             const cat = CATEGORY_COLORS[node.category] || {
-              hex: '#00F5D4',
-              rgb: '0, 245, 212',
+              hex: '#06B6D4',
+              code: 'SYS',
               label: { es: 'Sistema', en: 'System' },
             };
 
@@ -64,88 +46,58 @@ export default function ArcadeDeck() {
               <div
                 key={node.id}
                 onClick={() => setActiveNodeId(node.id)}
-                style={{
-                  borderColor: `rgba(${cat.rgb}, 0.35)`,
-                  boxShadow: `0 16px 40px rgba(0, 0, 0, 0.75), 0 0 25px rgba(${cat.rgb}, 0.1)`,
-                }}
-                className="group relative rounded-3xl bg-[#080B16]/90 border p-6 backdrop-blur-2xl cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(0,245,212,0.18)] flex flex-col justify-between"
+                className="group relative rounded-lg bg-[#11141B] border border-[#1E232E] hover:border-[#333E54] p-4 cursor-pointer transition-all flex flex-col justify-between"
               >
                 <div>
-                  {/* Top Badge Row */}
-                  <div className="flex items-center justify-between gap-2 mb-4">
-                    <span
-                      style={{
-                        color: cat.hex,
-                        backgroundColor: `rgba(${cat.rgb}, 0.14)`,
-                        borderColor: `rgba(${cat.rgb}, 0.4)`,
-                      }}
-                      className="text-xs font-mono px-3 py-1 rounded-full border uppercase tracking-wider font-semibold flex items-center gap-1.5"
-                    >
-                      <span
-                        className="w-2 h-2 rounded-full animate-pulse"
-                        style={{ backgroundColor: cat.hex }}
-                      />
-                      {cat.label[language]}
-                    </span>
+                  {/* Top Bar */}
+                  <div className="flex items-center justify-between text-xs font-mono mb-2 pb-1.5 border-b border-[#181D26]">
+                    <div className="flex items-center gap-2">
+                      <span style={{ color: cat.hex }} className="font-bold">
+                        {cat.code}
+                      </span>
+                      <span className="text-slate-600">/</span>
+                      <span className="text-slate-400 text-[11px] truncate">{node.id}</span>
+                    </div>
 
-                    <span className="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-0.5 rounded-full flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                      {language === 'es' ? 'SIMULADOR 60 FPS' : '60 FPS SIMULATOR'}
+                    <span className="text-[10px] text-slate-500 font-mono">
+                      {cat.label[language]}
                     </span>
                   </div>
 
-                  {/* Animated Mini-Preview */}
-                  <div className="mb-4 transform group-hover:scale-[1.01] transition-transform">
+                  {/* Scientific Mini-Diagram */}
+                  <div className="mb-3">
                     <NodeMiniPreview simulatorId={node.simulatorId} />
                   </div>
 
-                  {/* Title & Mechanical Metaphor */}
-                  <h2 className="text-lg md:text-xl font-bold text-white font-mono mb-2 group-hover:text-cyan-200 transition-colors">
+                  {/* Title & Metaphor */}
+                  <h2 className="text-sm font-bold text-slate-100 font-mono mb-1.5 group-hover:text-cyan-300 transition-colors">
                     {node.title[language]}
                   </h2>
 
-                  <p className="text-xs md:text-sm text-slate-300 leading-relaxed mb-4">
+                  <p className="text-xs text-slate-400 leading-relaxed mb-3">
                     {node.metaphor[language]}
                   </p>
 
-                  {/* Golden Rule Preview Box */}
-                  <div className="p-3 rounded-xl bg-black/40 border border-white/10 mb-4 font-mono text-xs text-slate-300">
-                    <span className="text-[10px] uppercase tracking-wider text-amber-300 block mb-0.5">
-                      🎯 {language === 'es' ? 'Heurística Base:' : 'Core Heuristic:'}
+                  {/* Formula / Golden Heuristic Box */}
+                  <div className="p-2.5 rounded bg-[#090B0F] border border-[#1C222E] font-mono text-xs text-slate-300 mb-3">
+                    <span className="text-[9px] uppercase tracking-wider text-slate-500 block mb-0.5">
+                      {language === 'es' ? 'INVARIANTE / REGLA DE ORO:' : 'SYSTEM INVARIANT:'}
                     </span>
-                    {node.anatomy.rule[language]}
+                    <span className="text-slate-200">{node.anatomy.rule[language]}</span>
                   </div>
                 </div>
 
-                {/* Footer with Cross-Pollination Links & CTA */}
-                <div className="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
-                  <div className="flex items-center gap-1.5 text-[11px] font-mono text-slate-400">
-                    <GitBranch className="w-3.5 h-3.5 text-cyan-400" />
-                    <span>{language === 'es' ? 'Conectado con:' : 'Linked to:'}</span>
-                    {node.connections.map((connId) => (
-                      <span
-                        key={connId}
-                        className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300"
-                      >
-                        {connId}
-                      </span>
-                    ))}
+                {/* Footer with Cross-Links & Workbench Action */}
+                <div className="pt-2.5 border-t border-[#181D26] flex items-center justify-between text-xs font-mono">
+                  <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
+                    <GitBranch className="w-3.5 h-3.5 text-slate-400" />
+                    <span>{node.connections.length} {language === 'es' ? 'enlaces' : 'links'}</span>
                   </div>
 
-                  <div
-                    style={{
-                      backgroundColor: `rgba(${cat.rgb}, 0.18)`,
-                      borderColor: cat.hex,
-                      color: cat.hex,
-                    }}
-                    className="px-3.5 py-1.5 rounded-xl border text-xs font-mono font-bold flex items-center gap-1.5 group-hover:brightness-125 transition-all"
-                  >
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>
-                      {language === 'es' ? 'Entrar al Cockpit' : 'Launch Cockpit'}
-                    </span>
-                    <span>→</span>
-                  </div>
+                  <span className="flex items-center gap-1 text-slate-300 group-hover:text-cyan-400 font-semibold transition-colors">
+                    <span>{language === 'es' ? 'Abrir Instrumento' : 'Open Instrument'}</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </span>
                 </div>
               </div>
             );

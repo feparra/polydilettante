@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useCallback, useState, useEffect } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import {
   ReactFlow,
   Background,
@@ -16,7 +16,6 @@ import '@xyflow/react/dist/style.css';
 
 import KnowledgeCardNode from './KnowledgeCardNode';
 import BioluminescentEdge from './BioluminescentEdge';
-import { CATEGORY_COLORS } from '@/types/node';
 import { useAppStore } from '@/store/useAppStore';
 
 const nodeTypes = {
@@ -29,13 +28,6 @@ const edgeTypes = {
 
 export default function CosmosCanvas() {
   const { nodes: appNodes, activeNodeId, setActiveNodeId, language } = useAppStore();
-  const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const nx = (e.clientX / window.innerWidth - 0.5) * 65;
-    const ny = (e.clientY / window.innerHeight - 0.5) * 65;
-    setMouseOffset({ x: nx, y: ny });
-  }, []);
 
   const flowNodes: Node[] = useMemo(() => {
     return appNodes.map((node) => ({
@@ -52,15 +44,11 @@ export default function CosmosCanvas() {
     appNodes.forEach((sourceNode) => {
       sourceNode.connections.forEach((targetId) => {
         if (sourceNode.id < targetId) {
-          const catConfig = CATEGORY_COLORS[sourceNode.category] || { hex: '#00F5D4' };
           edges.push({
             id: `edge-${sourceNode.id}-${targetId}`,
             source: sourceNode.id,
             target: targetId,
             type: 'bioluminescent',
-            style: {
-              stroke: catConfig.hex,
-            },
           });
         }
       });
@@ -71,8 +59,7 @@ export default function CosmosCanvas() {
   const [nodes, setNodes, onNodesChange] = useNodesState(flowNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(flowEdges);
 
-  // Sync internal state when nodes change dynamically via ingestion
-  useEffect(() => {
+  React.useEffect(() => {
     setNodes(flowNodes);
     setEdges(flowEdges);
   }, [flowNodes, flowEdges, setNodes, setEdges]);
@@ -85,26 +72,7 @@ export default function CosmosCanvas() {
   );
 
   return (
-    <div
-      onMouseMove={handleMouseMove}
-      className="w-full h-screen bg-[#05050A] relative overflow-hidden"
-    >
-      {/* Parallax Bioluminescent Deep Space Orbs */}
-      <div
-        style={{
-          transform: `translate3d(${mouseOffset.x}px, ${mouseOffset.y}px, 0)`,
-          backgroundColor: '#00F5D4',
-        }}
-        className="pointer-events-none absolute top-[12%] left-[18%] w-[520px] h-[520px] rounded-full blur-[150px] opacity-[0.14] transition-transform duration-300 ease-out"
-      />
-      <div
-        style={{
-          transform: `translate3d(${-mouseOffset.x * 1.2}px, ${-mouseOffset.y * 1.2}px, 0)`,
-          backgroundColor: '#9B5DE5',
-        }}
-        className="pointer-events-none absolute bottom-[10%] right-[16%] w-[580px] h-[580px] rounded-full blur-[160px] opacity-[0.15] transition-transform duration-300 ease-out"
-      />
-
+    <div className="w-full h-screen bg-[#0B0D11] lab-grid-bg relative overflow-hidden">
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -115,34 +83,27 @@ export default function CosmosCanvas() {
         onNodeClick={onNodeClick}
         connectionMode={ConnectionMode.Loose}
         fitView
-        fitViewOptions={{ padding: 0.22 }}
-        minZoom={0.35}
-        maxZoom={1.7}
+        fitViewOptions={{ padding: 0.2 }}
+        minZoom={0.4}
+        maxZoom={1.5}
         proOptions={{ hideAttribution: true }}
       >
-        <Background color="rgba(255, 255, 255, 0.08)" gap={34} size={1.5} />
-        <Controls className="!bg-[#090C19]/85 !border !border-white/15 !rounded-xl !p-1 [&>button]:!bg-transparent [&>button]:!border-white/10 [&>button]:!text-slate-300 hover:[&>button]:!bg-white/10 shadow-2xl" />
+        <Background color="#1C222F" gap={28} size={1} />
+        <Controls className="!bg-[#11141B] !border !border-[#1E232E] !rounded-md !p-1 [&>button]:!bg-transparent [&>button]:!border-[#1E232E] [&>button]:!text-slate-400 hover:[&>button]:!bg-[#1C2331]" />
         <MiniMap
-          nodeColor={(n) => {
-            const nodeData = appNodes.find((item) => item.id === n.id);
-            return nodeData ? (CATEGORY_COLORS[nodeData.category]?.hex || '#00F5D4') : '#00F5D4';
-          }}
-          maskColor="rgba(5, 5, 10, 0.85)"
-          className="!bg-[#090C19]/90 !border !border-white/15 !rounded-xl overflow-hidden shadow-2xl"
+          nodeColor="#2A3549"
+          maskColor="rgba(11, 13, 17, 0.85)"
+          className="!bg-[#11141B] !border !border-[#1E232E] !rounded-md overflow-hidden"
         />
       </ReactFlow>
 
-      {/* Bottom Center Interactive Telemetry Pill */}
-      <div className="pointer-events-none fixed bottom-5 left-1/2 -translate-x-1/2 z-20 hidden md:flex items-center gap-3 px-4 py-1.5 rounded-full bg-[#080B16]/80 border border-white/10 backdrop-blur-xl text-[11px] font-mono text-slate-400">
-        <span className="flex items-center gap-1.5 text-cyan-300">
-          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-          {language === 'es' ? 'CONSTELACIÓN SINÁPTICA ACTIVA' : 'SYNAPTIC CONSTELLATION LIVE'}
-        </span>
-        <span className="text-white/20">|</span>
+      {/* Discrete Technical Status Bar */}
+      <div className="pointer-events-none fixed bottom-3 left-6 z-20 hidden md:flex items-center gap-2 text-[10px] font-mono text-slate-500">
+        <span className="w-2 h-2 rounded-full bg-emerald-500/80 inline-block" />
+        <span>NETWORK ATLAS // TOPOLOGICAL SCHEMATIC</span>
+        <span className="text-slate-700">|</span>
         <span>
-          {language === 'es'
-            ? `${appNodes.length} Nodos Conectados • Arrastra o abre el Cockpit`
-            : `${appNodes.length} Linked Nodes • Drag or launch Cockpit`}
+          {language === 'es' ? 'Haz clic en cualquier nodo para abrir el banco de pruebas' : 'Select any system to inspect state equations'}
         </span>
       </div>
     </div>
